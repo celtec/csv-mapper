@@ -21,18 +21,18 @@ end
 # This module provides the main interface for importing CSV files & data to mapped Ruby objects.
 # = Usage
 # Including CsvMapper will provide two methods:
-# - +import+
+# - +import_csv+
 # - +map_csv+
 #
 # See csv-mapper.rb[link:files/lib/csv-mapper_rb.html] for method docs.
 #
 # === Import From File
-#   results = import('/path/to/file.csv') do
+#   results = import_csv('/path/to/file.csv') do
 #     # declare mapping here
 #   end
 #
 # === Import From String or IO
-#   results = import(csv_data, :type => :io) do
+#   results = import_csv(csv_data, :type => :io) do
 #     # declare mapping here
 #   end
 #
@@ -71,14 +71,14 @@ end
 #   foo.at(4).map :some_transform
 #
 # === Create Reusable Mappings
-# The +import+ method accepts an instance of RowMap as an optional mapping parameter.  
+# The +import_csv+ method accepts an instance of RowMap as an optional mapping parameter.
 # The easiest way to create an instance of a RowMap is by using +map_csv+.
-#   a_row_map = map_csv do 
+#   a_row_map = map_csv do
 #     # declare mapping here
 #   end
 # Then you can reuse the mapping
-#   results = import(some_string, :type => :io, :map => a_row_map)
-#   other_results = import('/path/to/file.csv', :map => a_row_map)
+#   results = import_csv(some_string, :type => :io, :map => a_row_map)
+#   other_results = import_csv('/path/to/file.csv', :map => a_row_map)
 #
 module CsvMapper
 
@@ -94,7 +94,7 @@ module CsvMapper
   # <tt>:type</tt>:: defaults to <tt>:file_path</tt>. Use <tt>:io</tt> to specify data as String or IO.
   # <tt>:map</tt>:: Specify an instance of a RowMap to take presidence over a given block defintion.
   #
-  def import(data, options={}, &map_block)
+  def import_csv(data, options={}, &map_block)
     csv_data = options[:type] == :io ? data : File.new(data, 'r')
 
     config = { :type => :file_path,

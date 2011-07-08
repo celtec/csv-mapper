@@ -23,7 +23,7 @@ describe CsvMapper do
   
     it "should import a CSV IO" do
       io = 'foo,bar,00,01'
-      results = @mapped.import(io, :type => :io) do 
+      results = @mapped.import_csv(io, :type => :io) do
         first
         second
       end
@@ -35,16 +35,16 @@ describe CsvMapper do
     end
   
     it "should import a CSV File IO" do
-      results = @mapped.import(File.dirname(__FILE__) + '/test.csv') do
+      results = @mapped.import_csv(File.dirname(__FILE__) + '/test.csv') do
         start_at_row 1
         [first_name, last_name, age]
       end
     
       results.size.should == 3
-    end 
+    end
   
     it "should stop importing at a specified row" do
-      results = @mapped.import(File.dirname(__FILE__) + '/test.csv') do
+      results = @mapped.import_csv(File.dirname(__FILE__) + '/test.csv') do
         start_at_row 1
         stop_at_row 2
         [first_name, last_name, age]
@@ -66,7 +66,7 @@ describe CsvMapper do
     it "should import non-comma delimited files" do
       piped_io = 'foo|bar|00|01'
     
-      results = @mapped.import(piped_io, :type => :io) do
+      results = @mapped.import_csv(piped_io, :type => :io) do
         delimited_by '|'
         [first, second]
       end
@@ -81,7 +81,7 @@ describe CsvMapper do
         row[0].upcase
       end
       
-      results = @mapped.import(File.dirname(__FILE__) + '/test.csv') do
+      results = @mapped.import_csv(File.dirname(__FILE__) + '/test.csv') do
         start_at_row 1
         
         first_name.map :upcase_name
@@ -103,7 +103,7 @@ describe CsvMapper do
   
     it "should import a CSV IO" do
       io = 'foo,bar,00,01'
-      results = CsvMapper.import(io, :type => :io) do 
+      results = CsvMapper.import_csv(io, :type => :io) do
         first
         second
       end
@@ -115,16 +115,16 @@ describe CsvMapper do
     end
   
     it "should import a CSV File IO" do
-      results = CsvMapper.import(File.dirname(__FILE__) + '/test.csv') do
+      results = CsvMapper.import_csv(File.dirname(__FILE__) + '/test.csv') do
         start_at_row 1
         [first_name, last_name, age]
       end
     
       results.size.should == 3
-    end 
+    end
   
     it "should stop importing at a specified row" do
-      results = CsvMapper.import(File.dirname(__FILE__) + '/test.csv') do
+      results = CsvMapper.import_csv(File.dirname(__FILE__) + '/test.csv') do
         start_at_row 1
         stop_at_row 2
         [first_name, last_name, age]
@@ -134,7 +134,7 @@ describe CsvMapper do
     end
 
     it "should be able to read attributes from a csv file" do
-      results = CsvMapper.import(File.dirname(__FILE__) + '/test.csv') do
+      results = CsvMapper.import_csv(File.dirname(__FILE__) + '/test.csv') do
         # we'll alias age here just as an example
         read_attributes_from_file('Age' => 'number_of_years_old')
       end
@@ -146,7 +146,7 @@ describe CsvMapper do
     it "should import non-comma delimited files" do
       piped_io = 'foo|bar|00|01'
     
-      results = CsvMapper.import(piped_io, :type => :io) do
+      results = CsvMapper.import_csv(piped_io, :type => :io) do
         delimited_by '|'
         [first, second]
       end
@@ -161,8 +161,8 @@ describe CsvMapper do
         row[0].upcase
       end
       
-      (lambda do 
-        results = CsvMapper.import(File.dirname(__FILE__) + '/test.csv') do
+      (lambda do
+        results = CsvMapper.import_csv(File.dirname(__FILE__) + '/test.csv') do
           start_at_row 1
         
           first_name.map :upcase_name
